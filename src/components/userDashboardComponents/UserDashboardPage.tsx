@@ -5,6 +5,7 @@ import apiClient from "../shared/Axios/AxiosInstance";
 
 const UserDashboardPage = () => {
   const [user, setUser] = useState(null);
+  console.log("user data from dashboard :", user);
 
   useEffect(() => {
     const tryFetch = async () => {

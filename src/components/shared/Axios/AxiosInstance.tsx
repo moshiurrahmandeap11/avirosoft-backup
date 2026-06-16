@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  baseURL: "https://api.aviro24.shop/api/v1",
   withCredentials: true,
   timeout: 10000,
   headers: {
