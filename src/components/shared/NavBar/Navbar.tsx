@@ -311,24 +311,22 @@ const Navbar = ({ user = null }: NavbarProps) => {
             {/* Mobile Auth Buttons (when not logged in) */}
             {!isLoggedIn && (
               <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-2">
-                <button
+                <a href='https://auth.aviro24.shop'
                   onClick={() => {
-                    handleSignIn();
                     setIsMenuOpen(false);
                   }}
                   className="w-full btn btn-outline"
                 >
                   Sign In
-                </button>
-                <button
+                </a>
+                <a href='https://auth.aviro24.shop'
                   onClick={() => {
-                    handleSignUp();
                     setIsMenuOpen(false);
                   }}
                   className="w-full btn btn-primary"
                 >
                   Sign Up
-                </button>
+                </a>
               </div>
             )}
 
