@@ -75,15 +75,6 @@ const Navbar = ({ user = null }: NavbarProps) => {
     setIsDropdownOpen(false);
   };
 
-  const handleSignIn = () => {
-    // Implement sign in logic here
-    console.log('Sign in');
-  };
-
-  const handleSignUp = () => {
-    // Implement sign up logic here
-    console.log('Sign up');
-  };
 
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
@@ -142,12 +133,12 @@ const Navbar = ({ user = null }: NavbarProps) => {
             {!isLoggedIn ? (
               // Desktop Auth Buttons (hidden on mobile when menu is open)
               <div className="hidden sm:flex items-center gap-3">
-                <button onClick={handleSignIn} className="btn btn-outline">
+                <a href='https://auth.aviro24.shop' className="btn btn-outline">
                   Sign In
-                </button>
-                <button onClick={handleSignUp} className="btn btn-primary">
+                </a>
+                <a href='https://auth.aviro24.shop' className="btn btn-primary">
                   Sign Up
-                </button>
+                </a>
               </div>
             ) : (
               // User Profile Dropdown (Desktop)
