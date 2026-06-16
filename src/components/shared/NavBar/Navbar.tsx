@@ -133,10 +133,10 @@ const Navbar = ({ user = null }: NavbarProps) => {
             {!isLoggedIn ? (
               // Desktop Auth Buttons (hidden on mobile when menu is open)
               <div className="hidden sm:flex items-center gap-3">
-                <a href='https://auth.aviro24.shop' className="btn btn-outline">
+                <a href='https://accounts.aviro24.shop' className="btn btn-outline">
                   Sign In
                 </a>
-                <a href='https://auth.aviro24.shop' className="btn btn-primary">
+                <a href='https://accounts.aviro24.shop' className="btn btn-primary">
                   Sign Up
                 </a>
               </div>
@@ -311,7 +311,7 @@ const Navbar = ({ user = null }: NavbarProps) => {
             {/* Mobile Auth Buttons (when not logged in) */}
             {!isLoggedIn && (
               <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-2">
-                <a href='https://auth.aviro24.shop'
+                <a href='https://accounts.aviro24.shop'
                   onClick={() => {
                     setIsMenuOpen(false);
                   }}
@@ -319,7 +319,7 @@ const Navbar = ({ user = null }: NavbarProps) => {
                 >
                   Sign In
                 </a>
-                <a href='https://auth.aviro24.shop'
+                <a href='https://accounts.aviro24.shop'
                   onClick={() => {
                     setIsMenuOpen(false);
                   }}
