@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
-import apiClient from "@/components/shared/Axios/AxiosInstance";
+import apiClient from "../components/shared/Axios/AxiosInstance";
 
 // ─── Types ─────────────────────────────────────────────
 export interface User {
