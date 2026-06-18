@@ -28,8 +28,12 @@ const Navbar = () => {
   const { setTheme, resolvedTheme } = useTheme();
 
   // Environment URLs - build time e resolve hoy
-  const ACCOUNTS_URL = process.env.NEXT_PUBLIC_ACCOUNTS_URL || "https://accounts.aviro24.shop";
-  const HOME_URL = process.env.NEXT_PUBLIC_HOME_URL || "https://home.aviro24.shop";
+  const ACCOUNTS_URL =
+    process.env.NEXT_PUBLIC_ACCOUNTS_URL || "https://accounts.aviro24.shop";
+  const ACCOUNTS_URL_2 = process.env.NEXT_PUBLIC_ACCOUNTS_URL_2;
+  const ACCOUNTS_URL_3 = process.env.NEXT_PUBLIC_ACCOUNTS_URL_3;
+  const HOME_URL =
+    process.env.NEXT_PUBLIC_HOME_URL || "https://home.aviro24.shop";
 
   useEffect(() => {
     const tryCall = async () => {
@@ -137,16 +141,10 @@ const Navbar = () => {
             {!isLoggedIn ? (
               // Desktop Auth Buttons (hidden on mobile when menu is open)
               <div className="hidden sm:flex items-center gap-3">
-                <a
-                  href={ACCOUNTS_URL}
-                  className="btn btn-outline"
-                >
+                <a href={ACCOUNTS_URL} className="btn btn-outline">
                   Sign In
                 </a>
-                <a
-                  href={ACCOUNTS_URL}
-                  className="btn btn-primary"
-                >
+                <a href={ACCOUNTS_URL_2} className="btn btn-primary">
                   Sign Up
                 </a>
               </div>
@@ -202,8 +200,12 @@ const Navbar = () => {
                             className="rounded-full"
                           />
                         ) : (
-                          <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                          <svg
+                            className="w-8 h-8"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                           </svg>
                         )}
                       </div>
@@ -211,7 +213,7 @@ const Navbar = () => {
                         <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
                           {userName}
                         </p>
-                        <a 
+                        <a
                           href={HOME_URL}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -228,13 +230,13 @@ const Navbar = () => {
 
                     {/* Actions Row */}
                     <div className="flex items-center">
-                      <Link
-                        href="/dashboard"
+                      <a
+                        href={ACCOUNTS_URL_3}
                         className="flex-1 px-4 py-2.5 text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-center"
                         onClick={() => setIsDropdownOpen(false)}
                       >
                         My Account
-                      </Link>
+                      </a>
                       <div className="w-px h-6 bg-gray-200 dark:bg-gray-700" />
                       <button
                         onClick={() => {
@@ -359,7 +361,7 @@ const Navbar = () => {
                   Sign In
                 </a>
                 <a
-                  href={ACCOUNTS_URL}
+                  href={ACCOUNTS_URL_2}
                   onClick={() => {
                     setIsMenuOpen(false);
                   }}
@@ -385,8 +387,12 @@ const Navbar = () => {
                         className="rounded-full"
                       />
                     ) : (
-                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                      <svg
+                        className="w-6 h-6"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                       </svg>
                     )}
                   </div>
@@ -394,26 +400,26 @@ const Navbar = () => {
                     <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
                       {userName}
                     </p>
-                        <a 
-                          href={HOME_URL}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs text-gray-500 dark:text-gray-400 truncate hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          Access Aviro Home
-                        </a>
+                    <a
+                      href={HOME_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-gray-500 dark:text-gray-400 truncate hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Access Aviro Home
+                    </a>
                   </div>
                 </div>
 
                 <div className="flex items-center border-t border-gray-200 dark:border-gray-700 pt-2">
-                  <Link
-                    href="/dashboard"
+                  <a
+                    href={ACCOUNTS_URL_3}
                     className="flex-1 px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors text-center"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     My Account
-                  </Link>
+                  </a>
                   <div className="w-px h-5 bg-gray-200 dark:bg-gray-700 mx-1" />
                   <button
                     onClick={() => {
