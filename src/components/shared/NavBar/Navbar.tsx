@@ -14,7 +14,6 @@ import {
 
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
-import apiClient from "../Axios/AxiosInstance";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -30,16 +29,15 @@ const Navbar = () => {
 
   // Environment URLs - build time e resolve hoy
   const ACCOUNTS_URL =
-    process.env.NEXT_PUBLIC_ACCOUNTS_URL || "https://accounts.aviro24.shop";
-  const ACCOUNTS_URL_2 = process.env.NEXT_PUBLIC_ACCOUNTS_URL_2;
-  const ACCOUNTS_URL_3 = process.env.NEXT_PUBLIC_ACCOUNTS_URL_3 || "https://accounts.aviro24.shop/profile";
+    process.env.NEXT_PUBLIC_ACCOUNTS_URL || "https://accounts.aviro24.shop/auth/login";
+  const ACCOUNTS_URL_2 =
+    process.env.NEXT_PUBLIC_ACCOUNTS_URL_2 || "https://accounts.aviro24.shop/auth/signup";
+  const ACCOUNTS_URL_3 =
+    process.env.NEXT_PUBLIC_ACCOUNTS_URL_3 || "https://accounts.aviro24.shop/profile";
   const HOME_URL =
     process.env.NEXT_PUBLIC_HOME_URL || "https://home.aviro24.shop";
 
-    const handleLogOut = async () => {
-      const res = await apiClient.post("/auth/logout")
-      console.log("log out response :", res);
-    }
+    
 
   useEffect(() => {
     const tryCall = async () => {
@@ -246,7 +244,7 @@ const Navbar = () => {
                       <div className="w-px h-6 bg-gray-200 dark:bg-gray-700" />
                       <button
                         onClick={() => {
-                          handleLogOut();
+                          handleSignOut();
                           setIsDropdownOpen(false);
                         }}
                         className="flex-1 px-4 py-2.5 text-sm font-medium text-red-500 dark:text-red-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-center"
@@ -429,7 +427,7 @@ const Navbar = () => {
                   <div className="w-px h-5 bg-gray-200 dark:bg-gray-700 mx-1" />
                   <button
                     onClick={() => {
-                      handleLogOut();
+                      handleSignOut();
                       setIsMenuOpen(false);
                     }}
                     className="flex-1 px-3 py-2 text-sm font-medium text-red-500 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors text-center"
