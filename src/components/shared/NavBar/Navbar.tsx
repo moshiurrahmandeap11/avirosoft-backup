@@ -1,15 +1,19 @@
 // components/navbar/Navbar.tsx
-'use client';
+"use client";
 
-import { navItems } from '@/data/navItems';
-import Link from 'next/link';
-import React, { useState, useEffect, useRef } from 'react';
-import AviroLogo from '../../../../public/Avirosoft Logo.svg';
-import Image from 'next/image';
-import { useAuth, getUserName, getUserAvatar } from '../../../context/AuthContext';
+import { navItems } from "@/data/navItems";
+import Link from "next/link";
+import React, { useState, useEffect, useRef } from "react";
+import AviroLogo from "../../../../public/Avirosoft Logo.svg";
+import Image from "next/image";
+import {
+  useAuth,
+  getUserName,
+  getUserAvatar,
+} from "../../../context/AuthContext";
 
-import { useTheme } from 'next-themes';
-import { Sun, Moon } from 'lucide-react';
+import { useTheme } from "next-themes";
+import { Sun, Moon } from "lucide-react";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -21,14 +25,17 @@ const Navbar = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isLoggedIn = !!user;
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
 
   useEffect(() => {
-    setMounted(true);
+    const tryCall = async () => {
+      await setMounted(true);
+    };
+    tryCall();
   }, []);
 
   const toggleTheme = () => {
-    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
 
   // Close menu when clicking outside
@@ -37,24 +44,27 @@ const Navbar = () => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false);
       }
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsDropdownOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isMenuOpen]);
 
@@ -66,12 +76,10 @@ const Navbar = () => {
     setIsDropdownOpen(false);
   };
 
-
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          
           {/* Left Section - Logo and Desktop Nav Items */}
           <div className="flex items-center gap-2 md:gap-8">
             {/* Logo */}
@@ -112,7 +120,7 @@ const Navbar = () => {
               aria-label="Toggle theme"
             >
               {mounted ? (
-                resolvedTheme === 'dark' ? (
+                resolvedTheme === "dark" ? (
                   <Sun className="w-5 h-5" />
                 ) : (
                   <Moon className="w-5 h-5" />
@@ -125,10 +133,16 @@ const Navbar = () => {
             {!isLoggedIn ? (
               // Desktop Auth Buttons (hidden on mobile when menu is open)
               <div className="hidden sm:flex items-center gap-3">
-                <a href='https://accounts.aviro24.shop' className="btn btn-outline">
+                <a
+                  href="https://accounts.aviro24.shop"
+                  className="btn btn-outline"
+                >
                   Sign In
                 </a>
-                <a href='https://accounts.aviro24.shop' className="btn btn-primary">
+                <a
+                  href="https://accounts.aviro24.shop"
+                  className="btn btn-primary"
+                >
                   Sign Up
                 </a>
               </div>
@@ -152,12 +166,9 @@ const Navbar = () => {
                       userName.charAt(0).toUpperCase()
                     )}
                   </div>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                    {userName}
-                  </span>
                   <svg
                     className={`w-4 h-4 transition-transform duration-200 ${
-                      isDropdownOpen ? 'rotate-180' : ''
+                      isDropdownOpen ? "rotate-180" : ""
                     }`}
                     fill="none"
                     stroke="currentColor"
@@ -175,6 +186,9 @@ const Navbar = () => {
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-1 border border-gray-200 dark:border-gray-700 z-50">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                      {userName}
+                    </span>
                     <Link
                       href="/profile"
                       className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -208,12 +222,32 @@ const Navbar = () => {
               aria-label="Toggle menu"
             >
               {isMenuOpen ? (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               ) : (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 </svg>
               )}
             </button>
@@ -225,13 +259,13 @@ const Navbar = () => {
       <div
         ref={menuRef}
         className={`fixed inset-0 z-40 transform transition-transform duration-300 ease-in-out ${
-          isMenuOpen ? 'translate-x-0' : '-translate-x-full'
+          isMenuOpen ? "translate-x-0" : "-translate-x-full"
         } md:hidden`}
       >
         {/* Overlay */}
         <div
           className={`absolute inset-0 bg-black transition-opacity duration-300 ${
-            isMenuOpen ? 'opacity-50' : 'opacity-0 pointer-events-none'
+            isMenuOpen ? "opacity-50" : "opacity-0 pointer-events-none"
           }`}
           onClick={() => setIsMenuOpen(false)}
         />
@@ -257,8 +291,12 @@ const Navbar = () => {
                     )}
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-white">{userName}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{user?.email}</p>
+                    <p className="font-medium text-gray-900 dark:text-white">
+                      {userName}
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      {user?.email}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -287,7 +325,7 @@ const Navbar = () => {
                 }}
                 className="w-full flex items-center gap-3 px-3 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               >
-                {mounted && resolvedTheme === 'dark' ? (
+                {mounted && resolvedTheme === "dark" ? (
                   <>
                     <Sun className="w-5 h-5" />
                     <span>Light Mode</span>
@@ -304,7 +342,8 @@ const Navbar = () => {
             {/* Mobile Auth Buttons (when not logged in) */}
             {!isLoggedIn && (
               <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-2">
-                <a href='https://accounts.aviro24.shop'
+                <a
+                  href="https://accounts.aviro24.shop"
                   onClick={() => {
                     setIsMenuOpen(false);
                   }}
@@ -312,7 +351,8 @@ const Navbar = () => {
                 >
                   Sign In
                 </a>
-                <a href='https://accounts.aviro24.shop'
+                <a
+                  href="https://accounts.aviro24.shop"
                   onClick={() => {
                     setIsMenuOpen(false);
                   }}

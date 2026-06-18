@@ -22,7 +22,7 @@ export interface User {
   phone?: string | null;
   createdAt: string;
   updatedAt: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 // Helper: full name generate kore
@@ -71,7 +71,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // First mount e ekbar call hobe
   useEffect(() => {
-    fetchUser();
+    const tryCall = async () => {
+      await fetchUser();
+    };
+    tryCall();
   }, [fetchUser]);
 
   // Refresh function (jodi kono component manually refresh korte chay)
