@@ -17,6 +17,13 @@ const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
 
   const ACCOUNTS_URL = process.env.NEXT_PUBLIC_ACCOUNTS_URL || "https://accounts.aviro24.shop";
 
+  // Product subdomain: "Aviro Pulse" → "pulse.aviro24.shop"
+  const getProductUrl = () => {
+    if (!product) return "https://aviro24.shop";
+    const firstWord = product.name.split(" ")[1]?.toLowerCase() || "";
+    return `https://${firstWord}.aviro24.shop`;
+  };
+
   if (!product) return null;
 
   return (
@@ -63,7 +70,7 @@ const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
             <>
               {user ? (
                 <a
-                  href={`${ACCOUNTS_URL}?product=${product.slug}`}
+                  href={getProductUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors mt-2"
