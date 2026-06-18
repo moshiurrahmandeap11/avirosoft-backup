@@ -1,29 +1,33 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import apiClient from "../shared/Axios/AxiosInstance";
+import React from "react";
+import { useAuth } from "@/context/AuthContext";
 
 const UserDashboardPage = () => {
-  const [user, setUser] = useState(null);
-  console.log("user data from dashboard :", user);
+  const { user, isLoading, isAuthenticated } = useAuth();
 
-  useEffect(() => {
-    const tryFetch = async () => {
-      const res = await apiClient.get("/auth/me");
-      setUser(res.data.data);
-    };
-    tryFetch();
-  }, []);
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-center p-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Loading user data...</p>
+        </div>
+      </div>
+    );
+  }
 
-  if (!user) {
+  // Not logged in state
+  if (!isAuthenticated || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-center p-8 bg-white dark:bg-gray-800 rounded-lg shadow-md">
           <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">
-            No User Data
+            Not Logged In
           </h2>
           <p className="text-gray-600 dark:text-gray-400">
-            No user data available.
+            Please sign in to view your dashboard.
           </p>
         </div>
       </div>
