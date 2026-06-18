@@ -153,7 +153,7 @@ const Navbar = () => {
                   onClick={toggleDropdown}
                   className="flex items-center gap-2 focus:outline-none"
                 >
-                  <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
+                  <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold overflow-hidden">
                     {userAvatar ? (
                       <Image
                         src={userAvatar}
@@ -183,33 +183,59 @@ const Navbar = () => {
                   </svg>
                 </button>
 
-                {/* Dropdown Menu */}
+                {/* Dropdown Menu - Zoho Style */}
                 {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-1 border border-gray-200 dark:border-gray-700 z-50">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                      {userName}
-                    </span>
-                    <Link
-                      href="/profile"
-                      className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      onClick={() => setIsDropdownOpen(false)}
-                    >
-                      Profile
-                    </Link>
-                    <Link
-                      href="/dashboard"
-                      className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      onClick={() => setIsDropdownOpen(false)}
-                    >
-                      Dashboard
-                    </Link>
-                    <hr className="my-1 border-gray-200 dark:border-gray-700" />
-                    <button
-                      onClick={handleSignOut}
-                      className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      Logout
-                    </button>
+                  <div className="absolute right-0 mt-3 w-64 bg-white dark:bg-gray-800 rounded-md shadow-xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden">
+                    {/* User Info Header */}
+                    <div className="flex items-center gap-3 px-4 py-3">
+                      <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center text-gray-500 dark:text-gray-300 font-semibold text-lg overflow-hidden shrink-0">
+                        {userAvatar ? (
+                          <Image
+                            src={userAvatar}
+                            alt={userName}
+                            width={48}
+                            height={48}
+                            className="rounded-full"
+                          />
+                        ) : (
+                          <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                          </svg>
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                          {userName}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                          Access Aviro Home
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="border-t border-gray-200 dark:border-gray-700" />
+
+                    {/* Actions Row */}
+                    <div className="flex items-center">
+                      <Link
+                        href="/dashboard"
+                        className="flex-1 px-4 py-2.5 text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-center"
+                        onClick={() => setIsDropdownOpen(false)}
+                      >
+                        My Account
+                      </Link>
+                      <div className="w-px h-6 bg-gray-200 dark:bg-gray-700" />
+                      <button
+                        onClick={() => {
+                          handleSignOut();
+                          setIsDropdownOpen(false);
+                        }}
+                        className="flex-1 px-4 py-2.5 text-sm font-medium text-red-500 dark:text-red-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors text-center"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -273,35 +299,6 @@ const Navbar = () => {
         {/* Menu Panel */}
         <div className="absolute left-0 top-0 bottom-0 w-64 bg-white dark:bg-gray-900 shadow-xl overflow-y-auto">
           <div className="p-4">
-            {/* Mobile User Info (when logged in) */}
-            {isLoggedIn && (
-              <div className="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
-                    {userAvatar ? (
-                      <Image
-                        src={userAvatar}
-                        alt={userName}
-                        width={40}
-                        height={40}
-                        className="rounded-full"
-                      />
-                    ) : (
-                      userName.charAt(0).toUpperCase()
-                    )}
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white">
-                      {userName}
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {user?.email}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
             {/* Navigation Items */}
             <div className="space-y-1">
               {navItems.map((nav) => (
@@ -365,30 +362,53 @@ const Navbar = () => {
 
             {/* Mobile User Actions (when logged in) */}
             {isLoggedIn && (
-              <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-2">
-                <Link
-                  href="/profile"
-                  className="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Profile
-                </Link>
-                <Link
-                  href="/dashboard"
-                  className="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Dashboard
-                </Link>
-                <button
-                  onClick={() => {
-                    handleSignOut();
-                    setIsMenuOpen(false);
-                  }}
-                  className="w-full text-left px-3 py-2 rounded-md text-red-600 hover:bg-gray-100 dark:hover:bg-gray-800"
-                >
-                  Logout
-                </button>
+              <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                {/* Mobile User Info Header */}
+                <div className="flex items-center gap-3 px-3 py-2 mb-3">
+                  <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center text-gray-500 dark:text-gray-300 font-semibold overflow-hidden shrink-0">
+                    {userAvatar ? (
+                      <Image
+                        src={userAvatar}
+                        alt={userName}
+                        width={40}
+                        height={40}
+                        className="rounded-full"
+                      />
+                    ) : (
+                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                      </svg>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                      {userName}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                      Access Aviro Home
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center border-t border-gray-200 dark:border-gray-700 pt-2">
+                  <Link
+                    href="/dashboard"
+                    className="flex-1 px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors text-center"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    My Account
+                  </Link>
+                  <div className="w-px h-5 bg-gray-200 dark:bg-gray-700 mx-1" />
+                  <button
+                    onClick={() => {
+                      handleSignOut();
+                      setIsMenuOpen(false);
+                    }}
+                    className="flex-1 px-3 py-2 text-sm font-medium text-red-500 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors text-center"
+                  >
+                    Sign Out
+                  </button>
+                </div>
               </div>
             )}
           </div>
