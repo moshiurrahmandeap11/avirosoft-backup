@@ -1,4 +1,4 @@
-import Navbar from "@/components/shared/NavBar/Navbar";
+import Navbar from "../../components/shared/NavBar/Navbar";
 
 
 export default function GeneralLayout({
