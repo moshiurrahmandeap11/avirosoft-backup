@@ -134,13 +134,13 @@ const Navbar = () => {
               // Desktop Auth Buttons (hidden on mobile when menu is open)
               <div className="hidden sm:flex items-center gap-3">
                 <a
-                  href="https://accounts.aviro24.shop"
+                  href={`${process.env.NEXT_PUBLIC_ACCOUNTS_URL}`}
                   className="btn btn-outline"
                 >
                   Sign In
                 </a>
                 <a
-                  href="https://accounts.aviro24.shop"
+                  href={`${process.env.NEXT_PUBLIC_ACCOUNTS_URL}`}
                   className="btn btn-primary"
                 >
                   Sign Up
@@ -207,7 +207,13 @@ const Navbar = () => {
                         <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
                           {userName}
                         </p>
-                        <a href={`${process.env.NEXT_PUBLIC_ACCOUNTS_URL}`} className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                        <a 
+                          href={`${process.env.NEXT_PUBLIC_ACCOUNTS_URL}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-gray-500 dark:text-gray-400 truncate hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                          onClick={() => setIsDropdownOpen(false)}
+                        >
                           Access Aviro Home
                         </a>
                       </div>
@@ -340,7 +346,7 @@ const Navbar = () => {
             {!isLoggedIn && (
               <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-2">
                 <a
-                  href="https://accounts.aviro24.shop"
+                  href={`${process.env.NEXT_PUBLIC_ACCOUNTS_URL}`}
                   onClick={() => {
                     setIsMenuOpen(false);
                   }}
@@ -349,7 +355,7 @@ const Navbar = () => {
                   Sign In
                 </a>
                 <a
-                  href="https://accounts.aviro24.shop"
+                  href={`${process.env.NEXT_PUBLIC_ACCOUNTS_URL}`}
                   onClick={() => {
                     setIsMenuOpen(false);
                   }}
@@ -384,7 +390,13 @@ const Navbar = () => {
                     <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
                       {userName}
                     </p>
-                        <a href={`${process.env.NEXT_PUBLIC_ACCOUNTS_URL}`} className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                        <a 
+                          href={`${process.env.NEXT_PUBLIC_ACCOUNTS_URL}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-gray-500 dark:text-gray-400 truncate hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
                           Access Aviro Home
                         </a>
                   </div>
