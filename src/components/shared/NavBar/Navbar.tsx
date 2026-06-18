@@ -27,6 +27,10 @@ const Navbar = () => {
   const isLoggedIn = !!user;
   const { setTheme, resolvedTheme } = useTheme();
 
+  // Environment URLs - build time e resolve hoy
+  const ACCOUNTS_URL = process.env.NEXT_PUBLIC_ACCOUNTS_URL || "https://accounts.aviro24.shop";
+  const HOME_URL = process.env.NEXT_PUBLIC_HOME_URL || "https://home.aviro24.shop";
+
   useEffect(() => {
     const tryCall = async () => {
       await setMounted(true);
@@ -134,13 +138,13 @@ const Navbar = () => {
               // Desktop Auth Buttons (hidden on mobile when menu is open)
               <div className="hidden sm:flex items-center gap-3">
                 <a
-                  href={`${process.env.NEXT_PUBLIC_ACCOUNTS_URL}`}
+                  href={ACCOUNTS_URL}
                   className="btn btn-outline"
                 >
                   Sign In
                 </a>
                 <a
-                  href={`${process.env.NEXT_PUBLIC_ACCOUNTS_URL}`}
+                  href={ACCOUNTS_URL}
                   className="btn btn-primary"
                 >
                   Sign Up
@@ -208,7 +212,7 @@ const Navbar = () => {
                           {userName}
                         </p>
                         <a 
-                          href={`${process.env.NEXT_PUBLIC_ACCOUNTS_URL}`}
+                          href={HOME_URL}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-xs text-gray-500 dark:text-gray-400 truncate hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
@@ -346,7 +350,7 @@ const Navbar = () => {
             {!isLoggedIn && (
               <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 space-y-2">
                 <a
-                  href={`${process.env.NEXT_PUBLIC_ACCOUNTS_URL}`}
+                  href={ACCOUNTS_URL}
                   onClick={() => {
                     setIsMenuOpen(false);
                   }}
@@ -355,7 +359,7 @@ const Navbar = () => {
                   Sign In
                 </a>
                 <a
-                  href={`${process.env.NEXT_PUBLIC_ACCOUNTS_URL}`}
+                  href={ACCOUNTS_URL}
                   onClick={() => {
                     setIsMenuOpen(false);
                   }}
@@ -391,7 +395,7 @@ const Navbar = () => {
                       {userName}
                     </p>
                         <a 
-                          href={`${process.env.NEXT_PUBLIC_ACCOUNTS_URL}`}
+                          href={HOME_URL}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-xs text-gray-500 dark:text-gray-400 truncate hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
