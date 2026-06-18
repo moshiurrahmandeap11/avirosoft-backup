@@ -6,13 +6,15 @@ import Link from 'next/link';
 import React, { useState, useEffect, useRef } from 'react';
 import AviroLogo from '../../../../public/Avirosoft Logo.svg';
 import Image from 'next/image';
-import { useAuth } from '../../../context/AuthContext';
+import { useAuth, getUserName, getUserAvatar } from '../../../context/AuthContext';
 
 import { useTheme } from 'next-themes';
 import { Sun, Moon } from 'lucide-react';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const userName = getUserName(user);
+  const userAvatar = getUserAvatar(user);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -92,6 +94,7 @@ const Navbar = () => {
                 <Link
                   key={nav.id}
                   href={nav.path}
+                  prefetch={false}
                   className="px-3 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 >
                   {nav.name}
@@ -137,20 +140,20 @@ const Navbar = () => {
                   className="flex items-center gap-2 focus:outline-none"
                 >
                   <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
-                    {user.avatar ? (
+                    {userAvatar ? (
                       <Image
-                        src={user.avatar}
-                        alt={user.name}
+                        src={userAvatar}
+                        alt={userName}
                         width={32}
                         height={32}
                         className="rounded-full"
                       />
                     ) : (
-                      user.name.charAt(0).toUpperCase()
+                      userName.charAt(0).toUpperCase()
                     )}
                   </div>
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                    {user.name}
+                    {userName}
                   </span>
                   <svg
                     className={`w-4 h-4 transition-transform duration-200 ${
@@ -241,21 +244,21 @@ const Navbar = () => {
               <div className="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
-                    {user.avatar ? (
+                    {userAvatar ? (
                       <Image
-                        src={user.avatar}
-                        alt={user.name}
+                        src={userAvatar}
+                        alt={userName}
                         width={40}
                         height={40}
                         className="rounded-full"
                       />
                     ) : (
-                      user.name.charAt(0).toUpperCase()
+                      userName.charAt(0).toUpperCase()
                     )}
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-white">{user.name}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{user.email}</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{userName}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{user?.email}</p>
                   </div>
                 </div>
               </div>
@@ -267,6 +270,7 @@ const Navbar = () => {
                 <Link
                   key={nav.id}
                   href={nav.path}
+                  prefetch={false}
                   className="block px-3 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
