@@ -31,7 +31,7 @@ const Navbar = () => {
   const ACCOUNTS_URL =
     process.env.NEXT_PUBLIC_ACCOUNTS_URL || "https://accounts.aviro24.shop";
   const ACCOUNTS_URL_2 = process.env.NEXT_PUBLIC_ACCOUNTS_URL_2;
-  const ACCOUNTS_URL_3 = process.env.NEXT_PUBLIC_ACCOUNTS_URL_3;
+  const ACCOUNTS_URL_3 = process.env.NEXT_PUBLIC_ACCOUNTS_URL_3 || "https://accounts.aviro24.shop/profile";
   const HOME_URL =
     process.env.NEXT_PUBLIC_HOME_URL || "https://home.aviro24.shop";
 
