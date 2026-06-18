@@ -6,11 +6,29 @@ import apiClient from "../components/shared/Axios/AxiosInstance";
 // ─── Types ─────────────────────────────────────────────
 export interface User {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  avatar?: string;
-  // jodi backend e ar kichu field thake, ekhane add korte paro
+  profilePicture?: string | null;
+  status: string;
+  emailVerified: boolean;
+  needPasswordChange: boolean;
+  phone?: string | null;
+  createdAt: string;
+  updatedAt: string;
   [key: string]: any;
+}
+
+// Helper: full name generate kore
+export function getUserName(user: User | null): string {
+  if (!user) return "User";
+  const name = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+  return name || "User";
+}
+
+// Helper: avatar URL
+export function getUserAvatar(user: User | null): string | null {
+  return user?.profilePicture || null;
 }
 
 interface AuthContextType {

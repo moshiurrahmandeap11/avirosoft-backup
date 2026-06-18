@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth, getUserName } from "../../context/AuthContext";
 
 const UserDashboardPage = () => {
   const { user, isLoading, isAuthenticated } = useAuth();
@@ -38,10 +38,19 @@ const UserDashboardPage = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10 px-4">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-          User Dashboard
+          {getUserName(user)}&apos;s Dashboard
         </h1>
 
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 p-6">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+            User Data
+          </h3>
+          <div className="space-y-2 text-sm text-gray-800 dark:text-gray-200 mb-4">
+            <p><strong>Name:</strong> {getUserName(user)}</p>
+            <p><strong>Email:</strong> {user.email}</p>
+            <p><strong>Status:</strong> {user.status}</p>
+            <p><strong>Email Verified:</strong> {user.emailVerified ? "Yes" : "No"}</p>
+          </div>
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
             Raw User Data
           </h3>
