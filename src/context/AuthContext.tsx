@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import apiClient from "../components/shared/Axios/AxiosInstance";
 
 // ─── Types ─────────────────────────────────────────────
@@ -47,13 +53,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log("user from auth context :", user);
+
   // /auth/me call kore user fetch korbe
   const fetchUser = useCallback(async () => {
     try {
       const res = await apiClient.get("/auth/me");
       // Backend response structure: res.data.data (tumar API onujayi)
       setUser(res.data.data ?? null);
-    } catch (error) {
+    } catch {
       // 401/403 hole user logged in nai
       setUser(null);
     } finally {
@@ -75,7 +83,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Logout handler
   const logout = useCallback(async () => {
     try {
-      await apiClient.post("/auth/logout"); 
+      await apiClient.post("/auth/logout");
     } catch {
       // ignore error
     }
