@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, CheckCircle } from "lucide-react";
 import { getProductBySlug } from "../../data/products";
+import { useAuth } from "../../context/AuthContext";
 
 interface ProductDetailPageProps {
   slug: string;
@@ -12,6 +13,7 @@ interface ProductDetailPageProps {
 
 const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
   const product = getProductBySlug(slug);
+  const { user, isLoading } = useAuth();
 
   const ACCOUNTS_URL = process.env.NEXT_PUBLIC_ACCOUNTS_URL || "https://accounts.aviro24.shop";
 
@@ -57,14 +59,29 @@ const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
           </p>
 
           {/* Access Button */}
-          <a
-            href={`${ACCOUNTS_URL}?product=${product.slug}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors mt-2"
-          >
-            Access {product.name}
-          </a>
+          {!isLoading && (
+            <>
+              {user ? (
+                <a
+                  href={`${ACCOUNTS_URL}?product=${product.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors mt-2"
+                >
+                  Access {product.name}
+                </a>
+              ) : (
+                <a
+                  href={ACCOUNTS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors mt-2"
+                >
+                  Sign Up for Free Trial
+                </a>
+              )}
+            </>
+          )}
         </div>
       </div>
 
