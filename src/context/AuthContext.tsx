@@ -86,7 +86,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Logout handler
   const logout = useCallback(async () => {
     try {
-      await apiClient.post("/auth/logout");
+      const response = await apiClient.post("/auth/logout");
+      console.log("log out response :", response);
     } catch {
       // ignore error
     }
