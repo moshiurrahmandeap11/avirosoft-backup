@@ -37,7 +37,8 @@ const Navbar = () => {
     process.env.NEXT_PUBLIC_HOME_URL || "https://home.aviro24.shop";
 
     const handleLogOut = async () => {
-      await apiClient.post("/auth/logout")
+      const res = await apiClient.post("/auth/logout")
+      console.log("log out response :", res);
     }
 
   useEffect(() => {
