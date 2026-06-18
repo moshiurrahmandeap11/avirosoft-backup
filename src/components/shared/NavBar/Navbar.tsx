@@ -384,9 +384,9 @@ const Navbar = () => {
                     <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
                       {userName}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                      Access Aviro Home
-                    </p>
+                        <a href={`${process.env.NEXT_PUBLIC_ACCOUNTS_URL}`} className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                          Access Aviro Home
+                        </a>
                   </div>
                 </div>
 
