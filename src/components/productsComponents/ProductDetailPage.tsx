@@ -57,9 +57,9 @@ const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
     if (!Array.isArray(subscriptions)) return false;
 
     return subscriptions.some((sub) => {
-      const services = sub.services as Array<Record<string, unknown>> | undefined;
-      if (!Array.isArray(services)) return false;
-      return services.some((service) => service.id === product?.id);
+      const service = sub.service as Record<string, unknown> | undefined;
+      if (!service) return false;
+      return service.id === product?.id;
     });
   }, [user, product]);
 
