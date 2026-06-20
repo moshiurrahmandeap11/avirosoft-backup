@@ -47,22 +47,20 @@ const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
   const productUrl = `https://${firstWord}.aviro24.shop`;
 
   // Check if user already has a subscription for this specific service
-  const hasExistingSubscription = useCallback(() => {
-    if (!user) return false;
+const hasExistingSubscription = useCallback(() => {
+  if (!user) return false;
 
-    const subscriptions = (user as Record<string, unknown>).subscriptions as
-      | Array<Record<string, unknown>>
-      | undefined;
+  const subscriptions = (user as Record<string, unknown>).subscriptions as
+    | Array<Record<string, unknown>>
+    | undefined;
 
-    if (!Array.isArray(subscriptions)) return false;
+  if (!Array.isArray(subscriptions)) return false;
 
-    return subscriptions.some((sub) => {
-      const service = sub.service as Record<string, unknown> | undefined;
-      if (!service) return false;
-      return service.id === product?.id;
-    });
-  }, [user, product]);
-
+  return subscriptions.some((sub) => {
+    const service = sub.service as Record<string, unknown> | undefined;
+    return Boolean(service?.id);
+  });
+}, [user]);
   const handleAccess = async () => {
     if (!user || !product) return;
 
