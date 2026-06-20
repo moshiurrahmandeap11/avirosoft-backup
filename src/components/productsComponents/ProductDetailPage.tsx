@@ -72,6 +72,7 @@ const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
       // 1. Fetch plans
       const plansRes = await apiClient.get<Plan[]>("/plans");
       const plans = plansRes.data;
+      console.log("plans :", plans);
 
       // 2. Find plan matching this product name (or use first plan as fallback)
       const matchedPlan = plans.find(
@@ -79,6 +80,8 @@ const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
           p.name.toLowerCase().includes(product.name.toLowerCase()) ||
           p.name.toLowerCase().includes(firstWord)
       );
+
+      console.log("matched plan:", matchedPlan);
 
       const plan = matchedPlan ?? plans[0];
 
