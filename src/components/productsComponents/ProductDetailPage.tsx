@@ -101,7 +101,7 @@ const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
     } catch (error) {
       console.error("Subscription error:", error);
       // Even on error, try navigating to product page so user isn't stuck
-      router.push("home.aviro24.shop");
+      router.push("https://home.aviro24.shop");
     } finally {
       setSubmitting(false);
     }
