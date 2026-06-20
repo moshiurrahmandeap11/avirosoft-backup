@@ -1,27 +1,109 @@
 "use client";
 
-import React from "react";
+import React, { useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, CheckCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft, CheckCircle, Loader2 } from "lucide-react";
 import { getProductBySlug } from "../../data/products";
 import { useAuth } from "../../context/AuthContext";
+import apiClient from "../../components/shared/Axios/AxiosInstance";
 
 interface ProductDetailPageProps {
   slug: string;
 }
 
+interface Plan {
+  id: string;
+  name: string;
+  // add other fields if needed
+}
+
+interface SubscriptionPayload {
+  planId: string;
+  status: "ACTIVE";
+  expiresAt: string;
+}
+
 const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
+  const router = useRouter();
   const product = getProductBySlug(slug);
   const { user, isLoading } = useAuth();
 
-  const ACCOUNTS_URL = process.env.NEXT_PUBLIC_ACCOUNTS_URL || "https://accounts.aviro24.shop";
+  const [submitting, setSubmitting] = useState(false);
+
+  const ACCOUNTS_URL =
+    process.env.NEXT_PUBLIC_ACCOUNTS_URL || "https://accounts.aviro24.shop";
 
   // Product subdomain: "Aviro Pulse" → "pulse.aviro24.shop"
   const getProductUrl = () => {
     if (!product) return "https://aviro24.shop";
     const firstWord = product.name.split(" ")[1]?.toLowerCase() || "";
     return `https://${firstWord}.aviro24.shop`;
+  };
+
+  const firstWord = product?.name.split(" ")[1]?.toLowerCase() || "";
+  const homeUrl = "https://home.aviro24.shop";
+  const productUrl = `https://${firstWord}.aviro24.shop`;
+
+  // Check if user already has any subscription (subscriptions array exists and has items)
+  const hasExistingSubscription = useCallback(() => {
+    if (!user) return false;
+
+    const subscriptions = (user as Record<string, unknown>).subscriptions as
+      | Array<Record<string, unknown>>
+      | undefined;
+
+    return Array.isArray(subscriptions) && subscriptions.length > 0;
+  }, [user]);
+
+  const handleAccess = async () => {
+    if (!user || !product) return;
+
+    // If already subscribed, go to home.aviro24.shop
+    if (hasExistingSubscription()) {
+      router.push(homeUrl);
+      return;
+    }
+
+    setSubmitting(true);
+
+    try {
+      // 1. Fetch plans
+      const plansRes = await apiClient.get<Plan[]>("/plans");
+      const plans = plansRes.data;
+
+      // 2. Find plan matching this product name (or use first plan as fallback)
+      const matchedPlan = plans.find(
+        (p) =>
+          p.name.toLowerCase().includes(product.name.toLowerCase()) ||
+          p.name.toLowerCase().includes(firstWord)
+      );
+
+      const plan = matchedPlan ?? plans[0];
+
+      if (!plan) {
+        throw new Error("No plan found");
+      }
+
+      // 3. Build payload and hit /subscriptions
+      const payload: SubscriptionPayload = {
+        planId: plan.id,
+        status: "ACTIVE",
+        expiresAt: "2025-12-31T23:59:59Z",
+      };
+
+      await apiClient.post("/subscriptions", payload);
+
+      // 4. Navigate to product subdomain
+      router.push(productUrl);
+    } catch (error) {
+      console.error("Subscription error:", error);
+      // Even on error, try navigating to product page so user isn't stuck
+      router.push(productUrl);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (!product) return null;
@@ -69,14 +151,20 @@ const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
           {!isLoading && (
             <>
               {user ? (
-                <a
-                  href={getProductUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors mt-2"
+                <button
+                  onClick={handleAccess}
+                  disabled={submitting}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium rounded-lg transition-colors mt-2"
                 >
-                  Access {product.name}
-                </a>
+                  {submitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>Access {product.name}</>
+                  )}
+                </button>
               ) : (
                 <a
                   href={ACCOUNTS_URL}
