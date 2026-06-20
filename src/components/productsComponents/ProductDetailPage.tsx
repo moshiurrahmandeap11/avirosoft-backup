@@ -46,7 +46,7 @@ const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
   const homeUrl = "https://home.aviro24.shop";
   const productUrl = `https://${firstWord}.aviro24.shop`;
 
-  // Check if user already has any subscription (subscriptions array exists and has items)
+  // Check if user already has a subscription for this specific service
   const hasExistingSubscription = useCallback(() => {
     if (!user) return false;
 
@@ -54,8 +54,14 @@ const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
       | Array<Record<string, unknown>>
       | undefined;
 
-    return Array.isArray(subscriptions) && subscriptions.length > 0;
-  }, [user]);
+    if (!Array.isArray(subscriptions)) return false;
+
+    return subscriptions.some((sub) => {
+      const services = sub.services as Array<Record<string, unknown>> | undefined;
+      if (!Array.isArray(services)) return false;
+      return services.some((service) => service.id === product?.id);
+    });
+  }, [user, product]);
 
   const handleAccess = async () => {
     if (!user || !product) return;
@@ -69,21 +75,12 @@ const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
     setSubmitting(true);
 
     try {
-      // 1. Fetch plans
-      const plansRes = await apiClient.get<Plan[]>("/plans");
-      const plans = plansRes.data;
-      console.log("plans :", plans);
+      // 1. Fetch plans - API returns { success, message, data: [...] }
+      const plansRes = await apiClient.get<{ data: Plan[] }>("/plans");
+      const plans = plansRes.data.data;
 
-      // 2. Find plan matching this product name (or use first plan as fallback)
-      const matchedPlan = plans.find(
-        (p) =>
-          p.name.toLowerCase().includes(product.name.toLowerCase()) ||
-          p.name.toLowerCase().includes(firstWord)
-      );
-
-      console.log("matched plan:", matchedPlan);
-
-      const plan = matchedPlan ?? plans[0];
+      // 2. Use first plan directly
+      const plan = plans[0];
 
       if (!plan) {
         throw new Error("No plan found");
@@ -103,7 +100,7 @@ const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
     } catch (error) {
       console.error("Subscription error:", error);
       // Even on error, try navigating to product page so user isn't stuck
-      router.push(productUrl);
+      router.push("home.aviro24.shop");
     } finally {
       setSubmitting(false);
     }
