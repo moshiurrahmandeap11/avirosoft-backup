@@ -93,7 +93,8 @@ const ProductDetailPage = ({ slug }: ProductDetailPageProps) => {
         expiresAt: "2025-12-31T23:59:59Z",
       };
 
-      await apiClient.post("/subscriptions", payload);
+      const res = await apiClient.post("/subscriptions", payload);
+      console.log("res from product details : ", res);
 
       // 4. Navigate to product subdomain
       router.push(productUrl);
